@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical App – Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-8">
+    <h2 class="text-2xl font-bold text-center text-blue-700">Create Your Account</h2>
+    <p class="text-center text-gray-600 mb-6">Join the platform in a few steps</p>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <!-- Full Name (used to set User.first_name) -->
+      <div>
+        <label class="block text-gray-700 font-medium">Full Name</label>
+        <input type="text" name="full_name" placeholder="Full Name"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-gray-700 font-medium">Email Address</label>
+        <input type="email" name="email" placeholder="Email Address"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Phone Number -->
+      <div>
+        <label class="block text-gray-700 font-medium">Phone Number</label>
+        <input type="tel" name="phone" placeholder="Phone Number"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Date of Birth -->
+      <div>
+        <label class="block text-gray-700 font-medium">Date of Birth</label>
+        <input type="date" name="date_of_birth"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Gender -->
+      <div>
+        <label class="block text-gray-700 font-medium">Gender </label>
+        <select name="gender"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+          <option value="">Choose an option</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label class="block text-gray-700 font-medium">City</label>
+        <input type="text" name="city" placeholder="City"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium">Country</label>
+        <input type="text" name="country" placeholder="Country"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label class="block text-gray-700 font-medium">Password</label>
+        <input type="password" name="password" placeholder="••••••••"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Confirm Password -->
+      <div>
+        <label class="block text-gray-700 font-medium">Confirm Password</label>
+        <input type="password" name="confirm_password" placeholder="••••••••"
+          class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Legal Consents (not enforced in form, but good UX) -->
+      <div class="space-y-2 pt-2">
+        <label class="flex gap-3 items-center text-sm text-gray-700">
+          <input type="checkbox" class="w-4 h-4 text-blue-600">
+          I accept the Terms & Conditions
+        </label>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-lg font-medium transition">
+        Create Account
+      </button>
+
+      <p class="text-center text-gray-600 text-sm">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-blue-600 font-medium hover:underline">Login</a>
+      </p>
+
+    </form>
+  </div>
+
+</body>
+</html>

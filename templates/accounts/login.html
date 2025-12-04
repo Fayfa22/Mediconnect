@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - MediCare+</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center px-4">
+  <div class="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-3xl font-bold text-center text-blue-600">Welcome Back</h2>
+    <p class="text-center text-gray-500 mt-2">Login to your account</p>
+
+    <form method="post" class="mt-8 space-y-6">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="text-red-600 text-sm mb-2">
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+
+      <div>
+        <label class="block text-gray-700 font-medium">Email</label>
+        <input
+          type="email"
+          name="{{ form.username.html_name }}"
+          value="{{ form.username.value|default_if_none:'' }}"
+          class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500"
+          placeholder="Email"
+          required
+        />
+        {% if form.username.errors %}
+        <p class="text-red-600 text-xs mt-1">{{ form.username.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium">Password</label>
+        <input
+          type="password"
+          name="{{ form.password.html_name }}"
+          class="w-full mt-2 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500"
+          placeholder="••••••••"
+          required
+        />
+        {% if form.password.errors %}
+        <p class="text-red-600 text-xs mt-1">{{ form.password.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-gray-600">
+      Don't have an account?
+      <a href="{% url 'signup_choose_role' %}" class="text-blue-600 font-medium">Sign up</a>
+    </p>
+  </div>
+</body>
+</html>

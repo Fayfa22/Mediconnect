@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete MEDICA - MediConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleSection(radio, sectionId) {
+      const section = document.getElementById(sectionId);
+      if (radio.value === "True") {
+        section.style.display = "block";
+      } else {
+        section.style.display = "none";
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 flex justify-center items-center min-h-screen p-4">
+  <div class="bg-white shadow-xl rounded-2xl p-8 max-w-3xl w-full">
+    <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">Complete Your Medical Profile</h2>
+    <p class="text-center text-gray-600 mb-6">Fill out your medical history and upload your medical record</p>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Maladies Chroniques -->
+      <div class="border p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Chronic Diseases</h3>
+        <div class="flex gap-4 mb-2">
+          {% for choice in medica_form.chronic_diseases_yes_no %}
+            <label class="flex items-center gap-2">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          {% endfor %}
+        </div>
+         <div id="chronic-section"
+          class="mt-2 {% if medica_form.chronic_diseases_yes_no.value %}block{% else %}hidden{% endif %}">
+          <label class="block font-medium">Select your chronic diseases:</label>
+          {% for checkbox in medica_form.chronic_diseases %}
+            <label class="flex items-center gap-2">
+              {{ checkbox.tag }} {{ checkbox.choice_label }}
+            </label>
+          {% endfor %}
+          <label>Other chronic diseases:</label>
+          {{ medica_form.chronic_diseases_other }}
+        </div>
+      </div>
+
+      <!-- Allergies -->
+      <div class="border p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Allergies</h3>
+        <div class="flex gap-4 mb-2">
+          {% for choice in medica_form.allergies_yes_no %}
+            <label class="flex items-center gap-2">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          {% endfor %}
+        </div>
+        <div id="allergy-section"
+          class="mt-2 {% if medica_form.allergies_yes_no.value %}block{% else %}hidden{% endif %}">
+          <label class="block font-medium">Specify your allergies:</label>
+            {{ medica_form.allergies }}
+        </div>
+      </div>
+
+      <!-- Vaccines -->
+      <div class="border p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Vaccines</h3>
+        <label class="block font-medium mb-1">Vaccines received:</label>
+        {% for checkbox in medica_form.vaccines_done %}
+          <label class="flex items-center gap-2">
+            {{ checkbox.tag }} {{ checkbox.choice_label }}
+          </label>
+        {% endfor %}
+        <label class="block mt-2">Other vaccines:</label>
+        {{ medica_form.vaccines_other }}
+      </div>
+
+      <!-- Family History -->
+      <div class="border p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Family History</h3>
+        <div class="flex gap-4 mb-2">
+          {% for choice in medica_form.family_history_yes_no %}
+            <label class="flex items-center gap-2">
+              {{ choice.tag }} {{ choice.choice_label }}
+            </label>
+          {% endfor %}
+        </div>
+        <div id="family-section"
+            class="mt-2 {% if medica_form.family_history_yes_no.value %}block{% else %}hidden{% endif %}">
+            <label class="block font-medium">Select family history:</label>
+            {% for checkbox in medica_form.family_history %}
+            <label class="flex items-center gap-2">
+              {{ checkbox.tag }} {{ checkbox.choice_label }}
+            </label>
+            {% endfor %}
+            <label>Other family history:</label>
+            {{ medica_form.family_history_other }}
+        </div>
+      </div>
+
+      <!-- Upload du carnet médical -->
+      <div class="border p-4 rounded-lg">
+        <h3 class="font-semibold mb-2">Upload Your Medical Record</h3>
+        <input type="file" name="medical_record" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-gray-700">
+      </div>
+
+      <!-- Bouton final -->
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-lg font-medium transition">
+        Finalize Creation
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Affichage dynamique des sections Oui/Non
+    const chronicRadios = document.querySelectorAll('input[name="chronic_diseases_yes_no"]');
+    chronicRadios.forEach(r => r.addEventListener('change', () => toggleSection(r, 'chronic-section')));
+
+    const allergyRadios = document.querySelectorAll('input[name="allergies_yes_no"]');
+    allergyRadios.forEach(r => r.addEventListener('change', () => toggleSection(r, 'allergy-section')));
+
+    const familyRadios = document.querySelectorAll('input[name="family_history_yes_no"]');
+    familyRadios.forEach(r => r.addEventListener('change', () => toggleSection(r, 'family-section')));
+  </script>
+</body>
+</html>
