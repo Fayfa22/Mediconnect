@@ -98,7 +98,7 @@ FAMILY_HISTORY_CHOICES = [
     
 class MedicalFormForm(forms.ModelForm):
     chronic_diseases_yes_no = forms.ChoiceField(
-        choices=[(True, "Yes"), (False, "No")],
+        choices=[("yes", "Yes"), ("no", "No")],
         widget=forms.RadioSelect,
         label="Do you have chronic diseases?"
     )
@@ -111,7 +111,7 @@ class MedicalFormForm(forms.ModelForm):
     chronic_diseases_other = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows":2}), label="Other chronic diseases")
 
     allergies_yes_no = forms.ChoiceField(
-        choices=[(True, "Yes"), (False, "No")],
+        choices=[("yes", "Yes"), ("no", "No")],
         widget=forms.RadioSelect,
         label="Do you have allergies?"
     )
@@ -126,7 +126,7 @@ class MedicalFormForm(forms.ModelForm):
     vaccines_other = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows":2}), label="Other vaccines")
 
     family_history_yes_no = forms.ChoiceField(
-        choices=[(True, "Yes"), (False, "No")],
+        choices=[("yes", "Yes"), ("no", "No")],
         widget=forms.RadioSelect,
         label="Do you have a family history of diseases?"
     )
@@ -151,17 +151,17 @@ class MedicalFormForm(forms.ModelForm):
         cleaned = super().clean()
 
         # Si "oui" pour maladies chroniques, vérifier qu'il y a au moins un choix ou texte libre
-        if cleaned.get("chronic_diseases_yes_no") in [True, 'True']:
+        if cleaned.get("chronic_diseases_yes_no") == "yes":
             if not cleaned.get("chronic_diseases") and not cleaned.get("chronic_diseases_other"):
                 self.add_error("chronic_diseases", "Please select or specify at least one chronic disease.")
 
         # Même logique pour allergies
-        if cleaned.get("allergies_yes_no") in [True, 'True']:
+        if cleaned.get("allergies_yes_no") == "yes":
             if not cleaned.get("allergies"):
                 self.add_error("allergies", "Please specify your allergies.")
 
         # Même logique pour family history
-        if cleaned.get("family_history_yes_no") in [True, 'True']:
+        if cleaned.get("family_history_yes_no") == "yes":
             if not cleaned.get("family_history") and not cleaned.get("family_history_other"):
                 self.add_error("family_history", "Please select or specify family history.")
 
